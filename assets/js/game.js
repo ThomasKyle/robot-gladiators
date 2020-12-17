@@ -58,8 +58,11 @@ var endGame = function() {
 // fight function (now with parameter for enemy's object holding name, health, and attack values)
 var fight = function(enemy) {
   while (playerInfo.health > 0 && enemy.health > 0) {
-    // ask player if they'd like to fight or run
-    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+    // ask player if they'd like to fight or skip using the fightOrSkip function
+    if (fightOrSkip()) {
+    //if true, leave fight by breaking loop
+    break;
+    }
 
     // if player picks "skip" confirm and then stop the loop
     if (promptFight === 'skip' || promptFight === 'SKIP') {
@@ -184,7 +187,40 @@ var randomNumber = function(min, max) {
 
   return value;
 };
-/* END GAME FUNCTIONS */
+
+var fightOrSkip = function(){
+  //ask player if they'd like to fight or skip using fightOrSkip function
+  var promptFight = window.prompt('Would you like FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+
+  // Conditional Recursive function Call
+  if (promptFight === "" || promptFight === null){
+    window.alert("You need to provide a valid answer! Please try again.");
+    return fightOrSkip(); 
+  }
+
+  promptFight = promptFight.toLowerCase();
+
+  if (promptFight === 'skip'){
+
+  }
+
+  //if player picks "skip" confirm and then stop the loop
+  if (promptFight === "skip" || promptFight === "SKIP"){
+    //confrim player wants to skip
+    var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+    //if yes (true), leave fight
+    if(confirmSkip){
+      window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+      //subtract money from playerMoney for skiping
+      playerInfo.money = Math.max(0, playerInfo.money - 10);
+
+      //return true if player wants to leave
+      return true;
+    }
+  }
+  }
+  /* END GAME FUNCTIONS */
 
 /* GAME INFORMATION / VARIABLES */
 
@@ -235,4 +271,4 @@ console.log(enemyInfo[0]['attack']);
 /* END GAME INFORMATION / VARIABLES */
 
 /* RUN GAME */
-startGame();
+startGame(); 
